@@ -39,7 +39,7 @@ recording_url = st.text_input(
 
 with st.expander("Advanced options"):
     frame_interval = st.number_input(
-        "Seconds between screenshots", min_value=5, max_value=60, value=15
+        "Seconds between screenshots", min_value=2, max_value=60, value=5
     )
     crop_left = st.number_input(
         "Crop left (fraction)", min_value=0.0, max_value=0.3, value=0.018, step=0.005, format="%.3f"

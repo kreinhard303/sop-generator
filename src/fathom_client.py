@@ -122,7 +122,12 @@ class FathomClient:
             data = self._get(f"/recordings/{recording_id}/summary")
         except FathomAPIError:
             return None
-        return data.get("summary") or data.get("markdown_formatted") or None
+        # The API nests the actual text under summary.markdown_formatted —
+        # data.get("summary") alone returns that whole nested object, not text.
+        summary = data.get("summary")
+        if isinstance(summary, dict):
+            return summary.get("markdown_formatted") or None
+        return summary or None
 
     def get_download_url(
         self, recording_id: str, *, interval_s: float = 5.0, timeout_s: float = 600.0

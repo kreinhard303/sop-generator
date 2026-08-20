@@ -48,7 +48,36 @@ of someone narrating a process, and a set of screenshots taken at fixed interval
 video. Write concise, imperative-mood steps ("Click X", "Open Y"), skip filler and small talk, \
 and merge narration that describes a single action into a single step. For each step, if one of \
 the provided screenshots (by timestamp) clearly shows that step's UI state, reference its \
-timestamp; otherwise leave it null. Call the emit_sop tool exactly once with the finished SOP."""
+timestamp; otherwise leave it null.
+
+Accuracy is critical — this document will be followed literally, and a wrong technical value \
+(a URL, field name, button label, ID, or setting) can break the process for whoever follows it. \
+Only state a specific value if it is explicitly spoken in the transcript or clearly legible in a \
+screenshot. Never substitute a value from general knowledge of what a step "usually" looks like, \
+even if it seems like a more correct or more common choice — report what this specific recording \
+actually shows and says, not what would typically be done.
+
+The narrator will often use deictic references — "this", "that one", "like this", "here" — pointing \
+at whatever is on screen at that moment instead of naming it. Resolve these by reading the exact \
+text/value visible in the corresponding screenshot, not by guessing what they probably mean. If no \
+screenshot is available at that moment or the value isn't legible, say so explicitly in the \
+instruction or a note (e.g. "use the callback URL shown on screen at this step") rather than filling \
+in a plausible-sounding value of your own.
+
+Never attribute an invented detail to the transcript. A note like "per the narration..." or "as \
+stated..." must only paraphrase something the transcript actually says — do not use that framing to \
+add credibility to a value you inferred or assumed. If you are uncertain what a step's exact value \
+is, write the instruction in general terms and flag the ambiguity in a note instead of asserting a \
+specific answer.
+
+If a meeting summary is provided below, treat it as a secondary, possibly-unreliable aid for overall \
+structure only — it is itself AI-generated and can contain confidently-worded errors (e.g. inventing \
+a specific value the speaker never actually said). The word-for-word transcript and the screenshots \
+are the only ground truth. Never carry a specific value (a URL, name, ID, setting) from the summary \
+into a step unless that same value also appears explicitly in the transcript or is legible on screen \
+— if the summary states something the transcript doesn't support, ignore the summary's claim.
+
+Call the emit_sop tool exactly once with the finished SOP."""
 
 
 @dataclass
