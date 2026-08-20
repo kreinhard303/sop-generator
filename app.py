@@ -68,7 +68,6 @@ if generate:
 
         status.write("Fetching transcript...")
         transcript = fathom.get_transcript(recording_id)
-        summary = fathom.get_summary(recording_id)
 
         status.write("Requesting video download...")
         video_url = fathom.get_download_url(recording_id)
@@ -93,7 +92,6 @@ if generate:
             api_key=settings.anthropic_api_key,
             model=settings.anthropic_model,
             transcript=transcript,
-            summary=summary,
             frames=frames,
         )
 

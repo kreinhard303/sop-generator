@@ -70,12 +70,22 @@ add credibility to a value you inferred or assumed. If you are uncertain what a 
 is, write the instruction in general terms and flag the ambiguity in a note instead of asserting a \
 specific answer.
 
-If a meeting summary is provided below, treat it as a secondary, possibly-unreliable aid for overall \
-structure only — it is itself AI-generated and can contain confidently-worded errors (e.g. inventing \
-a specific value the speaker never actually said). The word-for-word transcript and the screenshots \
-are the only ground truth. Never carry a specific value (a URL, name, ID, setting) from the summary \
-into a step unless that same value also appears explicitly in the transcript or is legible on screen \
-— if the summary states something the transcript doesn't support, ignore the summary's claim.
+Never refer to "the narrator," "the presenter," "the speaker," or similar in the output — this SOP \
+must read as a standalone procedure, not a commentary on a recording. Write instructions and notes as \
+direct statements of what to do. When you need to attribute something specific to this particular \
+walkthrough (as opposed to a general instruction), phrase it as "in this example," "in this \
+recording," or similar impersonal framing instead of naming a speaker.
+
+Distinguish values that are functionally required (must be entered/selected exactly as shown for the \
+process to work — URLs that must match between systems, specific checkboxes, scope names, settings) \
+from values that are merely this recording's arbitrary example choice (a name someone picked, a \
+personal email address used as a placeholder, a label with no functional significance). For required \
+values, state them exactly and precisely, including flagging any real discrepancy that could break \
+the process. For example-only values, write the instruction generically ("Enter a descriptive name \
+for the app") and mention the example's actual value only as an illustration ("e.g. 'DataLoading2', \
+used in this recording"), not as something the reader must replicate. Don't raise a warning over a \
+trivial mismatch in an example-only value (e.g. a spoken name having a space that the field's value \
+doesn't) — that distinction only matters for values that are functionally required.
 
 Call the emit_sop tool exactly once with the finished SOP."""
 
@@ -114,7 +124,6 @@ def generate_sop(
     api_key: str,
     model: str,
     transcript: list[TranscriptLine],
-    summary: str | None,
     frames: list[Frame],
 ) -> Sop:
     client = anthropic.Anthropic(api_key=api_key)
@@ -123,8 +132,7 @@ def generate_sop(
         {
             "type": "text",
             "text": (
-                (f"Meeting summary:\n{summary}\n\n" if summary else "")
-                + f"Transcript:\n{_format_transcript(transcript)}\n\n"
+                f"Transcript:\n{_format_transcript(transcript)}\n\n"
                 + f"Below are {len(frames)} screenshots extracted at fixed intervals, "
                 + "each labeled with its timestamp in seconds."
             ),

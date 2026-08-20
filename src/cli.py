@@ -68,7 +68,6 @@ def main() -> int:
     try:
         print(f"Fetching transcript for recording {recording_id}...")
         transcript = fathom.get_transcript(recording_id)
-        summary = fathom.get_summary(recording_id)
 
         print("Requesting video download from Fathom...")
         video_url = fathom.get_download_url(recording_id)
@@ -93,7 +92,6 @@ def main() -> int:
             api_key=settings.anthropic_api_key,
             model=settings.anthropic_model,
             transcript=transcript,
-            summary=summary,
             frames=frames,
         )
         print(f"Generated SOP with {len(sop.steps)} steps.")
